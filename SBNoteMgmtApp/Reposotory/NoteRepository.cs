@@ -10,7 +10,7 @@ namespace SBNoteMgmtApp.Reposotory
     {
         void DeleteNotes(NoteModel noteModel);
         NoteModel FindNoteById(Guid id);
-        IEnumerable<Notemodel> GetAllNotes();
+        IEnumerable<NoteModel> GetAllNotes();
         void SaveNotes(NoteModel noteModel);
     }
 
@@ -33,10 +33,10 @@ namespace SBNoteMgmtApp.Reposotory
         }
         public NoteModel FindNoteById(Guid id)
         {
-            var note = _notes.Find(notes n => n.Id == id);
+            var note = _notes.Find(match: n => n.Id == id);
             return note;
         }
-        public IEnumerable<Notemodel> GetAllNotes()
+        public IEnumerable<NoteModel> GetAllNotes()
         {
             return _notes;
         }
@@ -47,6 +47,11 @@ namespace SBNoteMgmtApp.Reposotory
         public void DeleteNotes(NoteModel noteModel)
         {
             _notes.Remove(noteModel);
+        }
+
+        IEnumerable<NoteModel> INoteRepository.GetAllNotes()
+        {
+            throw new NotImplementedException();
         }
     }
 }

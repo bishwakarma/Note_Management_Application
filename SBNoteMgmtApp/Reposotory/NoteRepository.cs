@@ -48,10 +48,5 @@ namespace SBNoteMgmtApp.Reposotory
         {
             _notes.Remove(noteModel);
         }
-
-        IEnumerable<NoteModel> INoteRepository.GetAllNotes()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -31,16 +31,17 @@ namespace SBNoteMgmtApp.Controllers
 
 
         /// <summary>
-        /// Index() method renders the Home Page view.
+        /// Index() method renders the Home Page view. 
         /// My Home Page lists all the notes from the repository.
         /// Condition of the list are the notes that are not deleted from the field repository.
         /// </summary>
         /// <returns></returns>
         public IActionResult Index()
         {
+            //Fetching list of the Notes and passing it to the View
             // Condition of the list that are the notes NOT deleted from the field repository.
             //Assigned the created notes to the Var notes.
-            var notes = _noteRepository.GetAllNotes().Where( N => N.IsDeleted = false);
+            var notes = _noteRepository.GetAllNotes().Where( n => n.IsDeleted = false);
             //Passing the notes to the View Page a a model.
             return View(notes);
         }
@@ -83,34 +84,41 @@ namespace SBNoteMgmtApp.Controllers
         [HttpPost]
         public IActionResult NoteEditor(NoteModel noteModel)
         {
-            //Create a date in a Run Time and assign to the date variable.
-            var date = DateTime.Now;
+            if (ModelState.IsValid)
+            {
+                //Create a date in a Run Time and assign to the date variable.
+                var date = DateTime.Now;
 
-            //Validate FROM the EXISTING NOTE if the note is NOT null and the Id is NOT empty. Basically validating if the note is NOT the existing note.
-            if (noteModel != null && noteModel.Id != Guid.Empty)
-            {
-                //If the condition is valid.
-                //Create a new ID.
-                noteModel.Id = Guid.NewGuid();
-                //Create a new date.
-                noteModel.CreatedDate = date;
-                //Create the date when modifed.
-                noteModel.LastModified = date;
-                //GRAB the repository for the note and save the model to the repository.
-                _noteRepository.SaveNotes(noteModel);
+                //Validate FROM the EXISTING NOTE if the note is NOT null and the Id is NOT empty. Basically validating if the note is NOT the existing note.
+                if (noteModel != null && noteModel.Id == Guid.Empty)
+                {
+                    //If the condition is valid.
+                    //Create a new ID.
+                    noteModel.Id = Guid.NewGuid();
+                    //Create a new date.
+                    noteModel.CreatedDate = date;
+                    //Create the date when modifed.
+                    noteModel.LastModified = date;
+                    //GRAB the repository for the note and save the model to the repository.
+                    _noteRepository.SaveNotes(noteModel);
+                }
+                else        //Validating if the note is the exisitng note.
+                {
+                    //Find the note from the repository using teh ID from the Client.
+                    var notes = _noteRepository.FindNoteById(noteModel.Id);
+                    //Create a new date when modified the existing note.
+                    notes.LastModified = date;
+                    //Add the subject to the property of the note model.
+                    notes.Subject = noteModel.Subject;
+                    //Add the details for the notes in the model.
+                    notes.Details = noteModel.Details;
+                }
+                return RedirectToAction("Index");       //Redirecting the Client to the Index Page when the above HTTP POST Request are completed by the Application
             }
-            else        //Validating if the note is the exisitng note.
+            else
             {
-                //Find the note from the repository using teh ID from the Client.
-                var notes = _noteRepository.FindNoteById(noteModel.Id);
-                //Create a new date when modified the existing note.
-                notes.LastModified = date;
-                //Add the subject to the property of the note model.
-                notes.Subject = noteModel.Subject;
-                //Add the details for the notes in the model.
-                notes.Details = noteModel.Details;
+                return View();
             }
-            return RedirectToAction("Index");       //Redirecting the Client to the Index Page when the above HTTP POST Request are completed by the Application
         }
 
         /// <summary>

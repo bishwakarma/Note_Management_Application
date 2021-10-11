@@ -1,0 +1,25 @@
+Note Management Application Notes.
+
+1. Create our service.
+2. Regster the Service to the applicaiton in the Startup.cs file.
+3. Anytime I need the Sevice the application will give the Copy of the Service.
+
+4. Updated Existing HomeController.cs class.
+5. Added new IAction methods to the HOmeController.cs class to fulfill the Software Requirement Spec.
+
+VIEWS
+View is a template that contains both HTM and CSS snippets and also JS and C# SNIPPETS for how a partiular page renders or looks like.
+
+1. Creating Views.
+2. Applying CSS Styles to the Views I created.
+
+Following are the Views implemented in this Application.
+	Index View: Template for the Home Page.
+	NoteDetail View: Template for the Note Detail Page.
+	NoteEditor View: Template for the Note Editor page.
+
+	
+ 
+
+
+	

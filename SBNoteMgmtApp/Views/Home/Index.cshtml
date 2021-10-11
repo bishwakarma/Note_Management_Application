@@ -1,8 +1,51 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<NoteModel>
+@*
+    IEnumerable<NoteModel> is the Model associated with the Index View
+    IEnumerable is the list of the model NoteModel
+    I am referencing the list of notes from the HomeController.cs/Index Method in this view as a model above.
+*@
+
+@{
+    //Title of this View Page.
+    ViewData["Title"] = "my Notes";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<div class="index">
+    <!--Checking if the list of notes in the Model in line 1 is empty. If yes, then display the result from the foreach loop-->
+    @if (Model.Any())
+    {
+        <div class="panel panel-default index__header">
+            <h3 class="panel-body">Your Notes</h3>
+        </div>
+
+        //Reverse the list. As I want the last item to appear the first in the list model.
+        //Assigning eash of the the notes to the variable note. note variable below within the foreach loop represents my NoteModel.
+        //Whil div tags, referencing only the Subject to display from the NoteModel.
+
+        @foreach (NoteModel note in Model.Reverse())
+        {
+            <div class="panel panel-default">
+                <a asp-action="NoteDetail" asp-route-id="@note.Id" class="index__list-item-link">
+                    <div class="panel panel-default">
+                        @note.Subject
+                    </div>
+                </a>
+            </div>
+        }
+    }
+    else        //If the List in the Model in line 1 is empty, then display the result below.
+    {
+        <div class="panel panel-default index__empty-list">
+            <h3 class="panel-body">
+                You do not have any notes. Please click the button below to create a new note.
+            </h3>
+        </div>
+    }
+
+    <div class="index__new-note-button-wrapper">
+        <a asp-action="NoteEditor" class="index__new-note-button">
+            New Note
+        </a>
+    </div>
 </div>

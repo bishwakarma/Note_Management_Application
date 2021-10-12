@@ -4,6 +4,7 @@
 
     //Checking if the NoteMdel is empty.
     //Condition: If the ID and the Model is not empty
+
     @if (Model != null && Model.Id != Guid.Empty)
     {
         //If the Condition is true, display the link to Edit Note page
@@ -19,8 +20,11 @@
 
 
 <div class="note-editor">
+
     <div class="panel panel-default note-editor__panel">
+
         <div class="panel-heading note-editor__header">
+
             <h1 class="panel-title note-editor__panel-title">
 
                 <!--Edit Notes
@@ -38,9 +42,13 @@
                     <span>Create New Note</span>
                 }
             </h1>
+
         </div>
+
+
         <!--POST Method for the NoteEditor action method in the Model-->
         <form asp-action="NoteEditor" method="post">
+
             <div class="panel-body note-editor__panel-body">
 
                 <div asp-validation-summary="All"></div>
@@ -52,13 +60,17 @@
 
                 <div class="form-group">
                     <label class="note-editor__input-label" asp-for="Details">Your Note</label>
-                    <textarea class="form-control note-editor__detail-input" asp-for="Details" id="TextArea" rows="12" cols="20"></textarea>
+                    <textarea class="form-control note-editor__detail-input" 
+                              asp-for="Details" id="TextArea" rows="12" cols="20"></textarea>
                 </div>
+
             </div>
 
 
             <div class="panel-footer">
+
                 <div class="note-editor__flex-container">
+
                     @if (Model != null && Model.Id != Guid.Empty)
                     {
                         //If the note is existing, provide link to cancel and return the clien to Note Detail action page.
@@ -72,8 +84,11 @@
 
                     <!--Button below will allow Client to Submit the notes or an update to the Database or Model-->
                     <button class="btn btn-sm note-editor__button" type="submit">Save Note</button>
+
                 </div>
+
             </div>
         </form>
+
     </div>
 </div>

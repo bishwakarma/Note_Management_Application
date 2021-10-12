@@ -7,12 +7,13 @@
 
 @{
     //Title of this View Page.
-    ViewData["Title"] = "my Notes";
+    ViewData["Title"] = "My Notes";
 }
 
 
 <div class="index">
-    <!--Checking if the list of notes in the Model in line 1 is empty. If yes, then display the result from the foreach loop-->
+    <!--Checking if the list of notes in the Model in line 1 is empty. 
+        If yes, then display the result from the foreach loop-->
     @if (Model.Any())
     {
         <div class="panel panel-default index__header">
@@ -20,14 +21,15 @@
         </div>
 
         //Reverse the list. As I want the last item to appear the first in the list model.
-        //Assigning eash of the the notes to the variable note. note variable below within the foreach loop represents my NoteModel.
+        //Assigning eash of the the notes to the variable note. note variable below within
+        //the foreach loop represents my NoteModel.
         //Whil div tags, referencing only the Subject to display from the NoteModel.
 
         @foreach (NoteModel note in Model.Reverse())
         {
             <div class="panel panel-default">
                 <a asp-action="NoteDetail" asp-route-id="@note.Id" class="index__list-item-link">
-                    <div class="panel panel-default">
+                    <div class="panel-body">
                         @note.Subject
                     </div>
                 </a>

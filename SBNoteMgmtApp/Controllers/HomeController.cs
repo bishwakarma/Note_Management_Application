@@ -1,22 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using SBNoteMgmtApp.Models;
 using SBNoteMgmtApp.Reposotory;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace SBNoteMgmtApp.Controllers
 {
     public class HomeController : Controller
     {
-        //Using the created reposotory for the Application in this class by passing the Interface to the constructor method of the class.
+        //Using the created repository for the Application in this class
+        //by passing the Interface to the constructor method of the class.
+
         /// <summary>
         /// Private variable FIELD, is the copy of MY REPOSITORY. 
         /// </summary>
         private readonly INoteRepository _noteRepository;
+
         /// <summary>
         /// HomeController accepts the noteRepository and assigns it to the field above.
         /// </summary>
@@ -62,24 +62,28 @@ namespace SBNoteMgmtApp.Controllers
 
         //NoteEditor() method when called will Display the View or the Form to the Client.
         //Note Form can be empty or can be there with the conent to edit for the client.
-        //Calling the NoteEditor() method with the ID will provide existing content to the Client to make an Edit.
-        //If NoteEditor() method is not called with an ID, then the empty form will be displayed to the Client to make a new Entry. 
+        //Calling the NoteEditor() method with the ID will provide existing content to
+        //the Client to make an Edit.
+        //If NoteEditor() method is not called with an ID, then the empty form will be
+        //displayed to the Client to make a new Entry. 
         [HttpGet]
         public IActionResult NoteEditor( Guid Id = default)
         {
-            //Render the conent if the form is not empty..ie WHEN the ID is passed. 
+            //Render the content if the form is not empty..ie WHEN the ID is passed. 
             if (Id != Guid.Empty)
             {
                 //Get the Content.
                 var notes = _noteRepository.FindNoteById(Id);
                 //Passing the content to the View as a Model.
-                return View();
+                return View(notes);
             }
             return View();      //If the ID is not provided, provided an empty form to the Client for a new entry.
         }
 
 
-        // Wheather it is a new form or an existing form after entering the details if user clicks Submit to submit a form, the NoteEditor() method below will accept the form.
+        // Wheather it is a new form or an existing form after entering the
+        // details if user clicks Submit to submit a form,
+        // the NoteEditor() method below will accept the form.
         // Parameter of the NoteEditor method is the NoteModel.
         [HttpPost]
         public IActionResult NoteEditor(NoteModel noteModel)
@@ -89,7 +93,8 @@ namespace SBNoteMgmtApp.Controllers
                 //Create a date in a Run Time and assign to the date variable.
                 var date = DateTime.Now;
 
-                //Validate FROM the EXISTING NOTE if the note is NOT null and the Id is NOT empty. Basically validating if the note is NOT the existing note.
+                //Validate FROM the EXISTING NOTE if the note is NOT null
+                //and the Id is NOT empty. Basically validating if the note is NOT the existing note.
                 if (noteModel != null && noteModel.Id == Guid.Empty)
                 {
                     //If the condition is valid.
@@ -133,6 +138,13 @@ namespace SBNoteMgmtApp.Controllers
             //Validate the action to delete is true from the list of notes in the Index Page.
             note.IsDeleted = true;
             //If delete action is true, rendering the Client to the Index Page of the Application.
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult DeleteNotes(Guid Id)
+        {
+            var note = _noteRepository.FindNoteById(Id);
+            note.IsDeleted = true;
             return RedirectToAction("Index");
         }
 

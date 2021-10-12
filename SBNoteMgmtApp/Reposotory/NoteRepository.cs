@@ -6,19 +6,11 @@ using SBNoteMgmtApp.Models;
 
 namespace SBNoteMgmtApp.Reposotory
 {
-    public interface INoteRepository
-    {
-        void DeleteNotes(NoteModel noteModel);
-        NoteModel FindNoteById(Guid id);
-        IEnumerable<NoteModel> GetAllNotes();
-        void SaveNotes(NoteModel noteModel);
-    }
-
     /// <summary>
     /// This class is a container to store the notes.
+    ///Created a Interface to put the signature of the class. 
     /// </summary>
     public class NoteRepository : INoteRepository
-    //Created a Interface to put the signature of the class. 
     {
         /// <summary>
         /// Container for storing the notes.
@@ -33,7 +25,7 @@ namespace SBNoteMgmtApp.Reposotory
         }
         public NoteModel FindNoteById(Guid id)
         {
-            var note = _notes.Find(match: n => n.Id == id);
+            var note = _notes.Find(n => n.Id == id);
             return note;
         }
         public IEnumerable<NoteModel> GetAllNotes()
@@ -44,7 +36,7 @@ namespace SBNoteMgmtApp.Reposotory
         {
             _notes.Add(noteModel);
         }
-        public void DeleteNotes(NoteModel noteModel)
+        public void DeleteNote(NoteModel noteModel)
         {
             _notes.Remove(noteModel);
         }
